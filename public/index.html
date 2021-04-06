@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js">  </script>
+    <script src="./script.js"></script>
+</head>
+<body>
+    <div class="container" style="align-items: center; margin-left: 100px;"> 
+        <div class="no_of_tickets"> <h1>no of tickets avaliable</h1> <h2 class="tickets_avaliable">100</h2>  </div>
+        
+        <form>
+         <div class="mb-3">
+              <label for="movie_name"  class="form-label">Enter movie name</label>
+              <input type="text" class="form-control" id="movie_name">
+            </div>
+            <div class="mb-3">
+              <label for="date"  class="form-label">Enter</label>
+              <input type="date" class="form-control" id="set_date">
+            </div>
+             <p></p>
+            <div class="mb-3">
+              <label for="time" class="form-label">Time</label>
+              <input type="time" class="form-control" id="set_time">
+            </div>
+            <p>    </p>
+            <div class="enter_tickets"> 
+                <input type="number" min="1" max="100" id="set_tickets"> Enter no of tickets</input>
+            </div>
+            <p></p>
+            <button type="submit" id="book_btn" class="btn btn-primary">Booy my Show</button>
+          </form>
+
+
+
+
+
+
+
+    </div>
+</body>
+</html>
