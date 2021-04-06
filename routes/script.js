@@ -10,16 +10,21 @@ route.post('/',function(req,res){
            date:req.body.set_date,
            time:req.body.set_time,
            tickets_avaliable:req.body.tickets_avaliable
-       })
-       User.create({ 
-           movie_name:req.body.movie_name,
-           no_of_tickets:req.body.set_tickets
-       }).then(function(data){ 
-           current_tickets=current_tickets-1;
-           res.send(current_tickets);
+       }).then((data) => { 
+          
+        User.create({ 
+            movie_name:req.body.movie_name,
+            no_of_tickets:req.body.set_tickets
+        }).then(function(data){ 
+            current_tickets=current_tickets-1;
+            res.send(current_tickets);
+        }).catch((e) => { 
+            res.send(e);
+        })
        }).catch((e) => { 
            res.send(e);
        })
+       
 }else{ 
     res.send("seats are full");
 }

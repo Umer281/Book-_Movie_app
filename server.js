@@ -6,7 +6,7 @@ const app=express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use('/book/',require('./routes/script').route)
+app.use('/ticket',require('./routes/script').route)
 
 app.use('/',express.static(path.join(__dirname,'/public')));
 
