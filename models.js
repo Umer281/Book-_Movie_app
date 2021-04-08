@@ -5,7 +5,7 @@ const db=new Sequelize('Moviedb','booker','pass',{
 })
 
 
-const User=db.define('users',{ 
+const Users=db.define('users',{ 
     id:{ 
         type: Sequelize.DataTypes.INTEGER,
          primaryKey:true,
@@ -16,29 +16,43 @@ const User=db.define('users',{
          allowNull:false
      },
     no_of_tickets:{
-      type: Sequelize.DataTypes.INTEGER()
-    }
-})
-const Tickets=db.define('tickets',{ 
+      type: Sequelize.DataTypes.INTEGER(),
+      allowNull:false
+    },
+    seat_no:{ 
+        type:Sequelize.DataTypes.INTEGER(),
+        allowNull:false
+    },
     date:{ 
-        type: Sequelize.DataTypes.DATE
+        type: Sequelize.DataTypes.DATE,
+        allowNull:false
     },
     time:{ 
-        type:Sequelize.DataTypes.TIME
+        type:Sequelize.DataTypes.TIME,
+        allowNull:false
     },
     
-    tickets_avaliable:{ 
-        type:Sequelize.DataTypes.INTEGER()
-    }
+})
+const Seats=db.define('seats',{ 
+    id:{ 
+        type: Sequelize.DataTypes.INTEGER,
+         primaryKey:true,
+         autoIncrement: true
+     },
+    status:{ 
+        type:Sequelize.DataTypes.STRING(3)
+    },
+    
+    
 })
 
 
 
 
-User.hasMany(Tickets);
+Users.hasMany(Seats);
 
 
 db.sync();
-// exports=module.exports={ 
-//     db,User,Tickets
-// }
+ exports=module.exports={ 
+    db,Users,Seats
+ }
