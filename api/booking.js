@@ -1,15 +1,50 @@
 const { unstable_renderSubtreeIntoContainer } = require('react-dom');
 const{db,Users,Seats}=require('../models.js');
 const route=require('express').Router();
+// var seats=new Array(4).fill(0).map(() => new Array(6).fill(0));
+const row=4;
+const col=6;
+var seats=[[row],[col]];
 
-
-function isIdUnique(id){ 
-    return db.Seats.count({where:{userId : id} });
+ 
+//initially fill all the seats with their seat no which means the is not yet booked,
+const num=1;
+for(let i=0;i<row;i++){ 
+    for(let j=0;j<col;j++){ 
+        seats[i][j]=num;
+        num++;
+    }
 }
+//function to check if seat is vacant,if it is vacant book it and return true else return false
+function isSeatFilled(seat_no){ 
+    var seat_row=0;
+    if(seat_no%row==0){ 
+         seat_row=seat_no/row;
+    }else{
+        seat_row=(seat_no/row)+1;
+    }
+     //check for each col in seat_row
+     for(let j=0;j<col;j++){ 
+         if(seats[seat_row][j]==seat_no){ 
+             seats[seats_row][j]=1;
+             return true;}
+     }
+     return false;
+ 
+  }
 
-function isSeat(no){ 
-    return db.Users.count({where:{seat_no : no}});
-}
+
+
+
+// function isIdUnique(id){ 
+//     return db.Seats.count({where:{userId : id} });
+// }
+
+// function isSeat(no){ 
+//     return db.Users.count({where:{seat_no : no}});
+// }
+
+
 
 route.use('/',function(req,res){ 
     var current_tickets=req.body.tickets_avaliable;
@@ -22,10 +57,10 @@ route.use('/',function(req,res){
            date:req.body.date,
            time:req.body.time,
        }).then((data) => { 
-           //check if seats table contains user with u_id=data.id 
-          const count= isIdUnique(data.id);
-          if(count==0){ 
-              //means it is new user and it does't have uid in seats table then create a row in  seats table
+           //check if seats is avaliable
+          const check_seat= isSeatFilled(data.seat_no);
+          if(check_seat){ 
+              //means seat at particular row and col is vacant
               
               Seats.create({ 
                   userId:data.id,
@@ -38,26 +73,8 @@ route.use('/',function(req,res){
                   res.send(e);
             })
           }else{ 
-              //means user already exists then check if count of seat_no in Users table is 0,if >=1 then seat is already booked else book seat 
-              //and change status to yes 
-              const no=data.seat_no;
-              const isseatavaliable=isSeat(no);
-              if(isseatavaliable!=0){
+              //if returned value is false means seat is already booked
                    res.send("seat is already booked");
-                }
-              else{  
-                  //book seat
-                Seats.create({ 
-                    userId:data.id,
-                    status:Yes
-                }).then((details)=>{ 
-                    current_tickets=current_tickets-tickets_booked;
-                    console.log("your show is booked");
-                    res.send(current_tickets);
-                   
-                }).catch(e =>{ res.end(e);})
-               
-              }
           }
        })
 
